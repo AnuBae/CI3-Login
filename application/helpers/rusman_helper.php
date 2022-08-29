@@ -30,3 +30,18 @@ function is_logged_in()
         }
     }
 }
+
+
+function check_access($role_id, $menu_id)
+{
+    // make new instans CI3
+    $ci3 = get_instance();
+
+    $ci3->db->where('role_id', $role_id);
+    $ci3->db->where('menu_id', $menu_id);
+    $result = $ci3->db->get('user_access_menu');
+
+    if ($result->num_rows() > 0) {
+        return "checked = 'checked'";
+    }
+}
