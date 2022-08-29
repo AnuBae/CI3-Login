@@ -50,6 +50,12 @@
 
 <!-- ajax fot checkbox at role access -->
 <script>
+    // untuk file upload
+    $('.custom-file-input').on('change', function() {
+        let fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+    });
+
     // jquery tolong carikan elemen pada saat di klik jalankan ini
     $('.form-check-input').on('click', function() {
         // variable menu dapet dari checkbox yg sedang di klik

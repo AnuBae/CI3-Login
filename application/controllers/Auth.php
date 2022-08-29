@@ -3,9 +3,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Auth extends CI_Controller
 {
+    // public function __construct()
+    // {
+    //     parent::__construct();
+
+    // }
 
     public function index()
     {
+        // check sudah login atau belum
+        if ($this->session->userdata('email')) {
+            redirect('user');
+        }
         // rulse dari tiap kolom
         // untuk siapa, nama lainnya, dan rules (lihat doc ci3)
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
@@ -65,6 +74,10 @@ class Auth extends CI_Controller
 
     public function registration()
     {
+        // check sudah login atau belum
+        if ($this->session->userdata('email')) {
+            redirect('user');
+        }
         // rulse dari tiap kolom
         // untuk siapa, nama lainnya, dan rules (lihat doc ci3)
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
