@@ -103,13 +103,47 @@ class Auth extends CI_Controller
                 'image' => 'default.jpg',
                 'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
                 'role_id' => 2,
-                'is_active' => 1,
+                'is_active' => 0,
                 'date_created' => time()
             ];
 
-            $this->db->insert('user', $data);
+            // $this->db->insert('user', $data);
+
+            // kirim email ke user yg regis
+            $this->_sendEmail();
+
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Congratulation! your account has been created. Please Login!</div>');
             redirect('auth');
+        }
+    }
+
+    private function _sendEmail()
+    {
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+        $config['smtp_user'] = 'anubae80@gmail.com';
+        $config['smtp_pass'] = 'CrushliciousMask712';
+        $config['smtp_port'] = 465;
+        $config['mailtype'] = 'html';
+        // $config['charset'] = 'utf-8';      
+        $config['mailpath'] = '/usr/sbin/sendmail';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+        $config['newline'] = "\r\n";
+
+        $this->load->library('email', $config);
+        $this->email->initialize($config);
+
+        $this->email->from('anubae80@gmail.com', 'Rusmansyah Putra NH');
+        $this->email->to('rusman.putra.712@gmail.com');
+        $this->email->subject('Testing');
+        $this->email->message('Hello Word');
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            echo $this->email->print_debugger();
+            die;
         }
     }
 
